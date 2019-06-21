@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="NewPersistenceUnit">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>entities.ActionCommerciale</class>
+        <class>entities.Activite</class>
+        <class>entities.ActiviteDossier</class>
+        <class>entities.Adresse</class>
+        <class>entities.Agence</class>
+        <class>entities.Article</class>
+        <class>entities.ArticleConsommable</class>
+        <class>entities.ArticleFournisseur</class>
+        <class>entities.AyantDroit</class>
+        <class>entities.BonLivraisonClient</class>
+        <class>entities.BonLivraisonClientLigne</class>
+        <class>entities.Candidatures</class>
+        <class>entities.CategorieConsommable</class>
+        <class>entities.CommandeArticle</class>
+        <class>entities.CommandeFournisseur</class>
+        <class>entities.CommandeFournisseurStatut</class>
+        <class>entities.ContactFournisseur</class>
+        <class>entities.CpAutocomplete</class>
+        <class>entities.CuveOxygene</class>
+        <class>entities.CuveRemplissage</class>
+        <class>entities.DemandeIntervention</class>
+        <class>entities.DepEnRetard2</class>
+        <class>entities.DepEnRetardStatut</class>
+        <class>entities.Domaine</class>
+        <class>entities.Dossier</class>
+        <class>entities.DossierClient</class>
+        <class>entities.DossierPatient</class>
+        <class>entities.DossierStatut</class>
+        <class>entities.DroitAccesProfil</class>
+        <class>entities.DroitAccesUtilisateur</class>
+        <class>entities.Echeance</class>
+        <class>entities.Etablissement</class>
+        <class>entities.EtablissementPatient</class>
+        <class>entities.FamilleArticle</class>
+        <class>entities.FichierTemporaire</class>
+        <class>entities.Fichierpdf</class>
+        <class>entities.Fonctionnalite</class>
+        <class>entities.Forfait</class>
+        <class>entities.Fournisseur</class>
+        <class>entities.Gps</class>
+        <class>entities.GroupeUtilisateur</class>
+        <class>entities.HistoriqueMateriel</class>
+        <class>entities.HistoriqueObus</class>
+        <class>entities.HistoriqueStock</class>
+        <class>entities.HistoriqueStockTechnicien</class>
+        <class>entities.Hospitalisation</class>
+        <class>entities.IdentifiantUnique</class>
+        <class>entities.Intervention</class>
+        <class>entities.InterventionClient</class>
+        <class>entities.InterventionDecalageRappel</class>
+        <class>entities.InterventionLivraisonReprise</class>
+        <class>entities.InterventionMaterielArrivee</class>
+        <class>entities.Journal</class>
+        <class>entities.LienParente</class>
+        <class>entities.LivraisonOxygene</class>
+        <class>entities.LogCreationExtranet</class>
+        <class>entities.LogModif</class>
+        <class>entities.LogSuppression</class>
+        <class>entities.LogTransfert</class>
+        <class>entities.LotOxygene</class>
+        <class>entities.LotOxygeneObus</class>
+        <class>entities.Medecin</class>
+        <class>entities.MedecinPrescripteur</class>
+        <class>entities.Message</class>
+        <class>entities.Mesure</class>
+        <class>entities.ModeDeGestion</class>
+        <class>entities.ModeLivraison</class>
+        <class>entities.ModeReglement</class>
+        <class>entities.Obus</class>
+        <class>entities.ObusClient</class>
+        <class>entities.ObusPatient</class>
+        <class>entities.ObusPreteParClient</class>
+        <class>entities.ObusTechnicien</class>
+        <class>entities.Offres</class>
+        <class>entities.Pageweb</class>
+        <class>entities.ParametreApplication</class>
+        <class>entities.ParametreDomaine</class>
+        <class>entities.ParcMateriel</class>
+        <class>entities.ParcMaterielClient</class>
+        <class>entities.ParcMaterielEtat</class>
+        <class>entities.ParcMaterielOperation</class>
+        <class>entities.ParcMaterielPatient</class>
+        <class>entities.ParcMaterielPreteParClient</class>
+        <class>entities.ParcMaterielTechnicien</class>
+        <class>entities.Patient</class>
+        <class>entities.Personne</class>
+        <class>entities.Prescripteur</class>
+        <class>entities.Prescription</class>
+        <class>entities.PrescriptionEtat</class>
+        <class>entities.PrescriptionStatut</class>
+        <class>entities.Prestation</class>
+        <class>entities.ProfilUtilisateur</class>
+        <class>entities.RegimeComplementaire</class>
+        <class>entities.RegimeComplementairePatient</class>
+        <class>entities.RegimeObligatoire</class>
+        <class>entities.RegimeObligatoirePatient</class>
+        <class>entities.RelationGroupeUtilisateur</class>
+        <class>entities.ReleveObservancePatient</class>
+        <class>entities.RendezVousPrescripteur</class>
+        <class>entities.Reservoir</class>
+        <class>entities.SauvegardeDemandeIntervention</class>
+        <class>entities.SauvegardeMessage</class>
+        <class>entities.Specialite</class>
+        <class>entities.StockConsommable</class>
+        <class>entities.StockConsommableClient</class>
+        <class>entities.StockConsommablePatient</class>
+        <class>entities.StockConsommableTechnicien</class>
+        <class>entities.Technicien</class>
+        <class>entities.Tva</class>
+        <class>entities.TypeArticle</class>
+        <class>entities.TypeDemandeIntervention</class>
+        <class>entities.TypeDossier</class>
+        <class>entities.TypeEtablissement</class>
+        <class>entities.TypeForfait</class>
+        <class>entities.TypeIntervention</class>
+        <class>entities.TypePrescription</class>
+        <class>entities.Usertypes</class>
+        <class>entities.Utilisateur</class>
+        <class>entities.ValeurChoixMultiple</class>
+        <class>entities.ValeurMesure</class>
+        <class>entities.ValeurMesureObus</class>
+        <class>entities.ValeurReglage</class>
+        <class>entities.Vehicule</class>
+        <class>entities.VehiculeKilometre</class>
+        <class>entities.WebArticle</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3308/ventury?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value=""/>
+            <property name="hibernate.connection.password" value=""/>
+            <property name="hibernate.archive.autodetection" value="class"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>
