@@ -19,8 +19,12 @@
 	<description>AirmesBack</description>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
+
+	<packaging>war</packaging>
 
 	<dependencies>
 		<dependency>
@@ -99,18 +103,6 @@
 			<artifactId>org.eclipse.persistence.oracle</artifactId>
 			<version>2.6.1-RC1</version>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>unknown.binary</groupId>-->
-			<!--<artifactId>javax.persistence</artifactId>-->
-			<!--<version>SNAPSHOT</version>-->
-		<!--</dependency>-->
-		<!-- pour utiliser @value et réduire le code des classes -->
-		<!--<dependency>-->
-			<!--<groupId>org.projectlombok</groupId>-->
-			<!--<artifactId>lombok</artifactId>-->
-			<!--<version>1.18.6</version>-->
-			<!--<scope>provided</scope>-->
-		<!--</dependency>-->
 
 <!-- SPRING SECURITY -->
 		<dependency>
@@ -118,22 +110,6 @@
 			<artifactId>spring-security-oauth2</artifactId>
 			<version>2.2.4.RELEASE</version>
 		</dependency>
-
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.security</groupId>-->
-			<!--<artifactId>spring-security-ldap</artifactId>-->
-		<!--</dependency>-->
-
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.security</groupId>-->
-			<!--<artifactId>spring-security-openid</artifactId>-->
-		<!--</dependency>-->
-
-		<!--<dependency>-->
-			<!--<groupId>org.apache.httpcomponents</groupId>-->
-			<!--<artifactId>httpclient</artifactId>-->
-			<!--<version>4.5.1</version>-->
-		<!--</dependency>-->
 
 	</dependencies>
 
@@ -144,13 +120,30 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<fork>true</fork>
+					<executable>C:\Program Files\Java\jdk1.8.0_181\bin\javac</executable>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>unknown-jars-temp-repo</id>
-			<name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
-			<url>file:${project.basedir}/lib</url>
-		</repository>
-	</repositories>
+	<!--<repositories>-->
+		<!--<repository>-->
+			<!--<id>unknown-jars-temp-repo</id>-->
+			<!--<name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>-->
+			<!--<url>file:${project.basedir}/lib</url>-->
+		<!--</repository>-->
+	<!--</repositories>-->
 </project>
