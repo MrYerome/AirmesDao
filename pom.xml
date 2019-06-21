@@ -3,15 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<!-- <version>2.0.0.RELEASE</version> -->
 		<version>2.1.3.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<!-- TODO : ajouter l'auteur et la date -->
+
 	<groupId>com.airsante.airmes.dao</groupId>
 	<artifactId>AirmesDao</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -27,6 +25,11 @@
 	<packaging>war</packaging>
 
 	<dependencies>
+		<!--Est-ce bien utile ?-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -50,36 +53,36 @@
 		<!-- <groupId>org.springframework.data</groupId> -->
 		<!-- <artifactId>spring-data-rest-hal-browser</artifactId> -->
 		<!-- </dependency> -->
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.antlr</artifactId>
-			<version>2.6.1-RC1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.asm</artifactId>
-			<version>2.6.1-RC1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.core</artifactId>
-			<version>2.6.1-RC1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.dbws</artifactId>
-			<version>2.6.1-RC1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.jpa</artifactId>
-			<version>2.6.1-RC1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.jpa.jpql</artifactId>
-			<version>2.6.1-RC1</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.eclipse.persistence</groupId>-->
+			<!--<artifactId>org.eclipse.persistence.antlr</artifactId>-->
+			<!--<version>2.6.1-RC1</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.eclipse.persistence</groupId>-->
+			<!--<artifactId>org.eclipse.persistence.asm</artifactId>-->
+			<!--<version>2.6.1-RC1</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.eclipse.persistence</groupId>-->
+			<!--<artifactId>org.eclipse.persistence.core</artifactId>-->
+			<!--<version>2.6.1-RC1</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.eclipse.persistence</groupId>-->
+			<!--<artifactId>org.eclipse.persistence.dbws</artifactId>-->
+			<!--<version>2.6.1-RC1</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.eclipse.persistence</groupId>-->
+			<!--<artifactId>org.eclipse.persistence.jpa</artifactId>-->
+			<!--<version>2.6.1-RC1</version>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.eclipse.persistence</groupId>-->
+			<!--<artifactId>org.eclipse.persistence.jpa.jpql</artifactId>-->
+			<!--<version>2.6.1-RC1</version>-->
+		<!--</dependency>-->
 		<!--=================================================-->
 		<!--Remplacement de la dépendance par une hibernate pour récupérer la classe org.apache.http.Header-->
 		<!--<dependency>-->
