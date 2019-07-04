@@ -1,13 +1,6 @@
 package com.airsante.airmes.controller;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import com.airsante.airmes.entities.Utilisateur;
-import com.airsante.airmes.entities.Utilisateur_;
+import com.airsante.airmes.entities.PatientsListAccueilCustom;
 import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.airsante.airmes.entities.PatientsListAccueilCustom;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author jerome.vinet
@@ -25,10 +21,49 @@ import com.airsante.airmes.entities.PatientsListAccueilCustom;
  * Ce problème est récurrent et ancien (fin 2017) et est bien documenté dans https://jira.spring.io/browse/DATAREST-1237
  */
 @RestController
-public class RequestController {
+public class CustomControllerUtilisateur {
 
 	@Autowired
 	private EntityManager manager;
+
+
+
+	/**
+	 * Requête native pour récupérer tous les patients d'un prescripteur (actifs ou non)
+	 */
+	private String listePatients = "select pa.id as id,  pe.nom as nom, pe.prenom as prenom, ad.ville as ville, pa.numero_ss as numeroSecu, pa.date_installation as dateInstallation,"
+			+ " MAX(inte.date_realisation) as dateDerniereInter , pa.date_prochaine_interv as dateProchaineInter, ptm.moyenneMois as moyenneMois, pa.statut_dossier as statutDossier"
+			+ " from patientstomois ptm" + "	left join patient pa on pa.id= ptm.patient_id"
+			+ " left join personne pe on pe.id= pa.id" + " left join adresse ad on ad.id = pe.adresse_id"
+			+ " left outer join intervention inte on inte.patient_id = pa.id"
+			+ " group by pa.id, pe.nom, pe.prenom ";
+
+
+	/**
+	 * Requête native pour récupérer tous les patients ACTIFS d'un prescripteur
+	 */
+	private String listePatientsActifs = "select pa.id as id,  pe.nom as nom, pe.prenom as prenom, ad.ville as ville, pa.numero_ss as numeroSecu, pa.date_installation as dateInstallation,"
+			+ " MAX(inte.date_realisation) as dateDerniereInter , pa.date_prochaine_interv as dateProchaineInter, ptm.moyenneMois as moyenneMois, pa.statut_dossier as statutDossier"
+			+ " from patientstomois ptm"
+			+ "	left join patient pa on pa.id= ptm.patient_id"
+			+ " left join personne pe on pe.id= pa.id"
+			+ " left join adresse ad on ad.id = pe.adresse_id"
+			+ " left outer join intervention inte on inte.patient_id = pa.id"
+			+ " WHERE pa.statut_dossier = 'en cours' group by pa.id, pe.nom, pe.prenom ";
+
+
+	/**
+	 * Requête native pour récupérer tous les patients ACTIFS ET TELEOBSERVES d'un prescripteur
+	 */
+	private String listePatientsActifsTO = "select pa.id as id,  pe.nom as nom, pe.prenom as prenom, ad.ville as ville, pa.numero_ss as numeroSecu, pa.date_installation as dateInstallation,"
+			+ " MAX(inte.date_realisation) as dateDerniereInter , pa.date_prochaine_interv as dateProchaineInter, ptm.moyenneMois as moyenneMois, pa.statut_dossier as statutDossier"
+			+ " from patientstomois ptm" + "	left join patient pa on pa.id= ptm.patient_id"
+			+ " left join personne pe on pe.id= pa.id" + " left join adresse ad on ad.id = pe.adresse_id"
+			+ " left outer join intervention inte on inte.patient_id = pa.id"
+			+ " WHERE pa.statut_dossier = 'en cours' AND pa.teleobservance=1 group by pa.id, pe.nom, pe.prenom ";
+
+
+
 	/**
 	 * Requête native pour récupérer la liste de tous les patients (actifs ou non)
 	 */
@@ -39,59 +74,7 @@ public class RequestController {
 			+ " left outer join intervention inte on inte.patient_id = pa.id  "
 			+ " group by pa.id, pe.nom, pe.prenom LIMIT 10";
 
-	/**
-	 * Requête native pour récupérer tous les patients d'un prescripteur (actifs ou non)
-	 */
-	private String listePatientsPrescripteur = "select pa.id as id,  pe.nom as nom, pe.prenom as prenom, ad.ville as ville, pa.numero_ss as numeroSecu, pa.date_installation as dateInstallation,"
-			+ " MAX(inte.date_realisation) as dateDerniereInter , pa.date_prochaine_interv as dateProchaineInter, ptm.moyenneMois as moyenneMois, pa.statut_dossier as statutDossier"
-			+ " from patientstomois ptm" + "	left join patient pa on pa.id= ptm.patient_id"
-			+ " left join personne pe on pe.id= pa.id" + " left join adresse ad on ad.id = pe.adresse_id"
-			+ " left outer join intervention inte on inte.patient_id = pa.id"
-			+ " WHERE pa.prescripteur_id =:param group by pa.id, pe.nom, pe.prenom ";
 
-
-	/**
-	 * Requête native pour récupérer tous les patients ACTIFS d'un prescripteur
-	 */
-	private String listePatientsActifsPrescripteur = "select pa.id as id,  pe.nom as nom, pe.prenom as prenom, ad.ville as ville, pa.numero_ss as numeroSecu, pa.date_installation as dateInstallation,"
-			+ " MAX(inte.date_realisation) as dateDerniereInter , pa.date_prochaine_interv as dateProchaineInter, ptm.moyenneMois as moyenneMois, pa.statut_dossier as statutDossier"
-			+ " from patientstomois ptm"
-			+ "	left join patient pa on pa.id= ptm.patient_id"
-			+ " left join personne pe on pe.id= pa.id"
-			+ " left join adresse ad on ad.id = pe.adresse_id"
-			+ " left outer join intervention inte on inte.patient_id = pa.id"
-			+ " WHERE pa.prescripteur_id =:param and pa.statut_dossier = 'en cours' group by pa.id, pe.nom, pe.prenom ";
-
-
-	/**
-	 * Requête native pour récupérer tous les patients ACTIFS ET TELEOBSERVES d'un prescripteur
-	 */
-	private String listePatientsActifsTOPrescripteur = "select pa.id as id,  pe.nom as nom, pe.prenom as prenom, ad.ville as ville, pa.numero_ss as numeroSecu, pa.date_installation as dateInstallation,"
-			+ " MAX(inte.date_realisation) as dateDerniereInter , pa.date_prochaine_interv as dateProchaineInter, ptm.moyenneMois as moyenneMois, pa.statut_dossier as statutDossier"
-			+ " from patientstomois ptm" + "	left join patient pa on pa.id= ptm.patient_id"
-			+ " left join personne pe on pe.id= pa.id" + " left join adresse ad on ad.id = pe.adresse_id"
-			+ " left outer join intervention inte on inte.patient_id = pa.id"
-			+ " WHERE pa.prescripteur_id =:param and pa.statut_dossier = 'en cours' AND pa.teleobservance=1 group by pa.id, pe.nom, pe.prenom ";
-
-
-	/**
-	 * Nombre total de patients par prescripteur
-	 */
-	private String nombreTotalPatientsParPrescripteur = "select count(*) from patientstomois ptm left join patient pa on pa.id= ptm.patient_id "
-			+  			"WHERE pa.prescripteur_id = :param ;"
-			;
-	/**
-	 * Nombre total de patients actifs par prescripteur
-	 */
-	private String nombreTotalPatientsActifsParPrescripteur = "select count(*) from patientstomois ptm left join patient pa on pa.id= ptm.patient_id "
-			+  			"WHERE pa.prescripteur_id = :param and pa.dossier_statut = 2 ;"
-			;
-	/**
-	 * Nombre total de patients actifs + TO par prescripteur
-	 */
-	private String nombreTotalPatientsTelesuivisParPrescripteur = "select count(*) from patientstomois ptm left join patient pa on pa.id= ptm.patient_id "
-			+  			"WHERE pa.prescripteur_id = :param and pa.dossier_statut = 2 and pa.teleobservance=1;"
-			;
 	/**
 	 * Nombre total de patients TOTAL
 	 */
@@ -126,7 +109,7 @@ public class RequestController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "api/customRequests/listeAccueil", method = RequestMethod.GET)
+	@RequestMapping(value = "api/CustomControllerUtilisateur/listeAccueil", method = RequestMethod.GET)
 	public List<PatientsListAccueilCustom> getListPatientsAccueil() throws IOException {
 		//Solution simple pour un return avec une liste d'objets
 		//List<Object> listPatientsAccueil = manager.createNativeQuery(getListPatientsAccueil).getResultList();
@@ -143,69 +126,13 @@ public class RequestController {
 		return listPatientsAccueil;
 	}
 
-	/**
-	 * Liste de TOUS les patients par prescripteur
-	 * @param param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "api/customRequests/listePatientsPrescripteur", method = RequestMethod.GET)
-	public List<PatientsListAccueilCustom> getListPatientsPrescripteur(
-			@RequestParam("param") int param)
-	 throws IOException
-	{
-		List<PatientsListAccueilCustom> listPatientsAccueil = (List<PatientsListAccueilCustom>) manager.createNativeQuery(listePatientsPrescripteur)
-				.setParameter("param", param )
-				.unwrap(org.hibernate.query.Query.class)
-				.setResultTransformer(new AliasToBeanResultTransformer(PatientsListAccueilCustom.class))
-				.list();
-		return listPatientsAccueil;
-	}
 
-	/**
-	 * Liste de TOUS les patients ACTIFS par prescripteur
-	 * @param param
+    /**
+     * Nombre TOTAL des patients
 	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "api/customRequests/listePatientsActifsPrescripteur", method = RequestMethod.GET)
-	public List<PatientsListAccueilCustom> getListPatientsActifsPrescripteur(
-			@RequestParam("param") int param)
-			throws IOException
-	{
-		List<PatientsListAccueilCustom> listPatientsAccueil = (List<PatientsListAccueilCustom>) manager.createNativeQuery(listePatientsActifsPrescripteur)
-				.setParameter("param", param )
-				.unwrap(org.hibernate.query.Query.class)
-				.setResultTransformer(new AliasToBeanResultTransformer(PatientsListAccueilCustom.class))
-				.list();
-		return listPatientsAccueil;
-	}
-
-	/**
-	 * Liste de TOUS les patients actifs + TO par prescripteur
-	 * @param param
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "api/customRequests/listePatientsActifsTOPrescripteur", method = RequestMethod.GET)
-	public List<PatientsListAccueilCustom> getListPatientsActifsTOPrescripteur(
-			@RequestParam("param") int param)
-			throws IOException
-	{
-		List<PatientsListAccueilCustom> listPatientsAccueil = (List<PatientsListAccueilCustom>) manager.createNativeQuery(listePatientsActifsTOPrescripteur)
-				.setParameter("param", param )
-				.unwrap(org.hibernate.query.Query.class)
-				.setResultTransformer(new AliasToBeanResultTransformer(PatientsListAccueilCustom.class))
-				.list();
-		return listPatientsAccueil;
-	}
-
-	/**
-	 * Nombre TOTAL des patients
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "api/customRequests/nombreTotalPatients", method = RequestMethod.GET)
+     * @throws IOException
+     */
+	@RequestMapping(value = "api/CustomControllerUtilisateur/nombreTotalPatients", method = RequestMethod.GET)
 	public int getNombreTotalPatients()
 			throws IOException
 	{
@@ -219,7 +146,7 @@ public class RequestController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "api/customRequests/nombreTotalPatientsActifs", method = RequestMethod.GET)
+	@RequestMapping(value = "api/CustomControllerUtilisateur/nombreTotalPatientsActifs", method = RequestMethod.GET)
 	public int getNombreTotalPatientsActifs()
 			throws IOException
 	{
@@ -233,7 +160,7 @@ public class RequestController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "api/customRequests/nombreTotalPatientsTelesuivis", method = RequestMethod.GET)
+	@RequestMapping(value = "api/CustomControllerUtilisateur/nombreTotalPatientsTelesuivis", method = RequestMethod.GET)
 	public int getNombreTotalPatientsTelesuivis()
 			throws IOException
 	{
@@ -242,6 +169,54 @@ public class RequestController {
 		return nombreTotalPatientsTelesuivis;
 	}
 
+
+	/**
+	 * Liste de TOUS les patients au TOTAL
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "api/CustomControllerUtilisateur/listePatients", method = RequestMethod.GET)
+	public List<PatientsListAccueilCustom> getListPatientsUtilisateur()
+			throws IOException
+	{
+		List<PatientsListAccueilCustom> listPatientsAccueil = (List<PatientsListAccueilCustom>) manager.createNativeQuery(listePatients)
+				.unwrap(org.hibernate.query.Query.class)
+				.setResultTransformer(new AliasToBeanResultTransformer(PatientsListAccueilCustom.class))
+				.list();
+		return listPatientsAccueil;
+	}
+
+	/**
+	 * Liste de TOUS les patients ACTIFS au TOTAL
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "api/CustomControllerUtilisateur/listePatientsActifs", method = RequestMethod.GET)
+	public List<PatientsListAccueilCustom> getListPatientsActifsUtilisateur()
+			throws IOException
+	{
+		List<PatientsListAccueilCustom> listPatientsAccueil = (List<PatientsListAccueilCustom>) manager.createNativeQuery(listePatientsActifs)
+				.unwrap(org.hibernate.query.Query.class)
+				.setResultTransformer(new AliasToBeanResultTransformer(PatientsListAccueilCustom.class))
+				.list();
+		return listPatientsAccueil;
+	}
+
+	/**
+	 * Liste de TOUS les patients actifs + TO au TOTAL
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "api/CustomControllerUtilisateur/listePatientsActifsTO", method = RequestMethod.GET)
+	public List<PatientsListAccueilCustom> getListPatientsActifsTOUtilisateur()
+			throws IOException
+	{
+		List<PatientsListAccueilCustom> listPatientsAccueil = (List<PatientsListAccueilCustom>) manager.createNativeQuery(listePatientsActifsTO)
+				.unwrap(org.hibernate.query.Query.class)
+				.setResultTransformer(new AliasToBeanResultTransformer(PatientsListAccueilCustom.class))
+				.list();
+		return listPatientsAccueil;
+	}
 
 
 

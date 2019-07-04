@@ -1,13 +1,6 @@
 package com.airsante.airmes.controller;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import com.airsante.airmes.entities.Utilisateur;
-import com.airsante.airmes.entities.Utilisateur_;
+import com.airsante.airmes.entities.PatientsListAccueilCustom;
 import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.airsante.airmes.entities.PatientsListAccueilCustom;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author jerome.vinet
@@ -25,22 +21,14 @@ import com.airsante.airmes.entities.PatientsListAccueilCustom;
  * Ce problème est récurrent et ancien (fin 2017) et est bien documenté dans https://jira.spring.io/browse/DATAREST-1237
  */
 @RestController
-public class RequestController {
+public class CustomControllerPrescripteurs {
 
 	@Autowired
 	private EntityManager manager;
-	/**
-	 * Requête native pour récupérer la liste de tous les patients (actifs ou non)
-	 */
-	private String getListPatientsAccueil = "select pa.id as id,  pe.nom as nom, pe.prenom as prenom, ad.ville as ville, pa.numero_ss as numeroSecu, pa.date_installation as dateInstallation,"
-			+ " MAX(inte.date_realisation) as dateDerniereInter , pa.date_prochaine_interv as dateProchaineInter, ptm.moyenneMois as moyenneMois, pa.statut_dossier as statutDossier"
-			+ " from patientstomois ptm" + "	left join patient pa on pa.id= ptm.patient_id"
-			+ " left join personne pe on pe.id= pa.id" + " left join adresse ad on ad.id = pe.adresse_id"
-			+ " left outer join intervention inte on inte.patient_id = pa.id  "
-			+ " group by pa.id, pe.nom, pe.prenom LIMIT 10";
+
 
 	/**
-	 * Requête native pour récupérer tous les patients d'un prescripteur (actifs ou non)
+     * Requête native pour récupérer tous les patients d'un prescripteur (actifs ou non)
 	 */
 	private String listePatientsPrescripteur = "select pa.id as id,  pe.nom as nom, pe.prenom as prenom, ad.ville as ville, pa.numero_ss as numeroSecu, pa.date_installation as dateInstallation,"
 			+ " MAX(inte.date_realisation) as dateDerniereInter , pa.date_prochaine_interv as dateProchaineInter, ptm.moyenneMois as moyenneMois, pa.statut_dossier as statutDossier"
@@ -74,8 +62,8 @@ public class RequestController {
 			+ " WHERE pa.prescripteur_id =:param and pa.statut_dossier = 'en cours' AND pa.teleobservance=1 group by pa.id, pe.nom, pe.prenom ";
 
 
-	/**
-	 * Nombre total de patients par prescripteur
+    /**
+     * Nombre total de patients par prescripteur
 	 */
 	private String nombreTotalPatientsParPrescripteur = "select count(*) from patientstomois ptm left join patient pa on pa.id= ptm.patient_id "
 			+  			"WHERE pa.prescripteur_id = :param ;"
@@ -92,64 +80,15 @@ public class RequestController {
 	private String nombreTotalPatientsTelesuivisParPrescripteur = "select count(*) from patientstomois ptm left join patient pa on pa.id= ptm.patient_id "
 			+  			"WHERE pa.prescripteur_id = :param and pa.dossier_statut = 2 and pa.teleobservance=1;"
 			;
-	/**
-	 * Nombre total de patients TOTAL
-	 */
-	private String nombreTotalPatients = "select count(*) from patientstomois ptm left join patient pa on pa.id= ptm.patient_id " ;
-
-	/**
-	 * Nombre total de patients actifs TOTAL
-	 */
-	private String nombreTotalPatientsActifs = "select count(*) from patientstomois ptm left join patient pa on pa.id= ptm.patient_id "
-			+  			"WHERE pa.dossier_statut = 2 ;"
-	;
-	/**
-	 * Nombre total de patients actifs + TO TOTAL
-	 */
-	private String nombreTotalPatientsTelesuivis = "select count(*) from patientstomois ptm left join patient pa on pa.id= ptm.patient_id "
-			+  			"WHERE pa.dossier_statut = 2 and pa.teleobservance=1;"
-			;
 
 
 	/**
-	  Récupère la liste de tous les patients, avec les infos suivantes :
-	 * 	int getId();		
-	 *	String getNom() ;	
-	 *	String getPrenom()
-	 *	String getVille();	
-	 *	String getNumeroSecu();		
-	 *	Date getDateInstallation();	
-	 *	Date getDateDerniereInter();	
-	 *	Date getDateProchaineInter();	
-	 *	int getMoyenneMois();	
-	 *	String getStatutDossier();
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "api/customRequests/listeAccueil", method = RequestMethod.GET)
-	public List<PatientsListAccueilCustom> getListPatientsAccueil() throws IOException {
-		//Solution simple pour un return avec une liste d'objets
-		//List<Object> listPatientsAccueil = manager.createNativeQuery(getListPatientsAccueil).getResultList();
-
-		//Solution plus complexe où l'on retourne des PatientsCustoms, ce qui permet d'avoir un label aux infos retournées. On utilise une méthode dite dépréciée mais qui n'a pas été remplacée
-		List<PatientsListAccueilCustom> listPatientsAccueil = (List<PatientsListAccueilCustom>) manager.createNativeQuery(getListPatientsAccueil)
-				.unwrap(org.hibernate.query.Query.class)
-				 .setResultTransformer(new AliasToBeanResultTransformer(PatientsListAccueilCustom.class))
-				 .list();
-		//On vérifie chacun des noms
-//		for (PatientsListAccueilCustom patient : listPatientsAccueil) {
-//			System.out.println(patient.getNom());
-//		}
-		return listPatientsAccueil;
-	}
-
-	/**
-	 * Liste de TOUS les patients par prescripteur
+     * Liste de TOUS les patients par prescripteur
 	 * @param param
-	 * @return
-	 * @throws IOException
+     * @return
+     * @throws IOException
 	 */
-	@RequestMapping(value = "api/customRequests/listePatientsPrescripteur", method = RequestMethod.GET)
+	@RequestMapping(value = "api/CustomControllerPrescripteurs/listePatientsPrescripteur", method = RequestMethod.GET)
 	public List<PatientsListAccueilCustom> getListPatientsPrescripteur(
 			@RequestParam("param") int param)
 	 throws IOException
@@ -168,7 +107,7 @@ public class RequestController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "api/customRequests/listePatientsActifsPrescripteur", method = RequestMethod.GET)
+	@RequestMapping(value = "api/CustomControllerPrescripteurs/listePatientsActifsPrescripteur", method = RequestMethod.GET)
 	public List<PatientsListAccueilCustom> getListPatientsActifsPrescripteur(
 			@RequestParam("param") int param)
 			throws IOException
@@ -187,7 +126,7 @@ public class RequestController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "api/customRequests/listePatientsActifsTOPrescripteur", method = RequestMethod.GET)
+	@RequestMapping(value = "api/CustomControllerPrescripteurs/listePatientsActifsTOPrescripteur", method = RequestMethod.GET)
 	public List<PatientsListAccueilCustom> getListPatientsActifsTOPrescripteur(
 			@RequestParam("param") int param)
 			throws IOException
@@ -201,46 +140,57 @@ public class RequestController {
 	}
 
 	/**
-	 * Nombre TOTAL des patients
+	 * Nombre de TOUS les patients par prescripteur
+	 * @param param
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "api/customRequests/nombreTotalPatients", method = RequestMethod.GET)
-	public int getNombreTotalPatients()
+	@RequestMapping(value = "api/CustomControllerPrescripteurs/nombreTotalPatientsPrescripteur", method = RequestMethod.GET)
+	public int getNombreTotalPatientsParPrescripteur(
+			@RequestParam("param") int param)
 			throws IOException
 	{
-		Query query = manager.createNativeQuery(nombreTotalPatients);
+		Query query = manager.createNativeQuery(nombreTotalPatientsParPrescripteur);
+		query.setParameter("param", param);
 		int nombreTotalPatients = ((Number) query.getSingleResult()).intValue();
 		return nombreTotalPatients;
 	}
 
 	/**
-	 * Nombre TOTAL des patients ACTIFS
+	 * Nombre de TOUS les patients actifs par prescripteur
+	 * @param param
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "api/customRequests/nombreTotalPatientsActifs", method = RequestMethod.GET)
-	public int getNombreTotalPatientsActifs()
+	@RequestMapping(value = "api/CustomControllerPrescripteurs/nombreTotalPatientsActifsPrescripteur", method = RequestMethod.GET)
+	public int getNombreTotalPatientsActifsParPrescripteur(
+			@RequestParam("param") int param)
 			throws IOException
 	{
-		Query query = manager.createNativeQuery(nombreTotalPatientsActifs);
+		Query query = manager.createNativeQuery(nombreTotalPatientsActifsParPrescripteur);
+		query.setParameter("param", param);
 		int nombreTotalPatientsActifs = ((Number) query.getSingleResult()).intValue();
 		return nombreTotalPatientsActifs;
 	}
 
 	/**
-	 * Nombre TOTAL des patients ACTIFS + TO
+	 * Nombre de TOUS les patients actifs + TO par prescripteur
+	 * @param param
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "api/customRequests/nombreTotalPatientsTelesuivis", method = RequestMethod.GET)
-	public int getNombreTotalPatientsTelesuivis()
+	@RequestMapping(value = "api/CustomControllerPrescripteurs/nombreTotalPatientsActifsTelesuivisPrescripteur", method = RequestMethod.GET)
+	public int getNombreTotalPatientsTelesuivisParPrescripteur(
+			@RequestParam("param") int param)
 			throws IOException
 	{
-		Query query = manager.createNativeQuery(nombreTotalPatientsTelesuivis);
+		Query query = manager.createNativeQuery(nombreTotalPatientsTelesuivisParPrescripteur);
+		query.setParameter("param", param);
 		int nombreTotalPatientsTelesuivis = ((Number) query.getSingleResult()).intValue();
 		return nombreTotalPatientsTelesuivis;
 	}
+
+
 
 
 

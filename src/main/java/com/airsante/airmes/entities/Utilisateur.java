@@ -23,6 +23,7 @@ public class Utilisateur {
     private Integer agenceId;
     private Personne personneByPersonneId;
     private Technicien technicienByTechnicienId;
+   // private Personne personneById;
 
     @Id
 	@JsonProperty(value = "dataId")
@@ -135,6 +136,17 @@ public class Utilisateur {
     public void setPersonneByPersonneId(Personne personneByPersonneId) {
         this.personneByPersonneId = personneByPersonneId;
     }
+
+//    @OneToOne
+//    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+//    public Personne getPersonneById() {
+//        return personneById;
+//    }
+//
+//    public void setPersonneById(Personne personneById) {
+//        this.personneById = personneById;
+//    }
+
 
     @ManyToOne
     @JoinColumn(name = "technicien_id", referencedColumnName = "id")
