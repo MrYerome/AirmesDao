@@ -136,6 +136,7 @@ public class CustomControllerPrescripteurs {
 				.unwrap(org.hibernate.query.Query.class)
 				.setResultTransformer(new AliasToBeanResultTransformer(PatientsListAccueilCustom.class))
 				.list();
+		System.out.println(listPatientsAccueil);
 		return listPatientsAccueil;
 	}
 

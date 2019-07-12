@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.airsante.airmes.entities.PatientInterfaceAccueilCustom;
 import com.airsante.airmes.entities.Utilisateur;
 import com.airsante.airmes.entities.Utilisateur_;
 import org.hibernate.transform.AliasToBeanResultTransformer;
@@ -29,15 +30,14 @@ public class RequestController {
 
 	@Autowired
 	private EntityManager manager;
-	/**
-	 * Requête native pour récupérer la liste de tous les patients (actifs ou non)
-	 */
+
 	private String getListPatientsAccueil = "select pa.id as id,  pe.nom as nom, pe.prenom as prenom, ad.ville as ville, pa.numero_ss as numeroSecu, pa.date_installation as dateInstallation,"
 			+ " MAX(inte.date_realisation) as dateDerniereInter , pa.date_prochaine_interv as dateProchaineInter, ptm.moyenneMois as moyenneMois, pa.statut_dossier as statutDossier"
 			+ " from patientstomois ptm" + "	left join patient pa on pa.id= ptm.patient_id"
 			+ " left join personne pe on pe.id= pa.id" + " left join adresse ad on ad.id = pe.adresse_id"
 			+ " left outer join intervention inte on inte.patient_id = pa.id  "
 			+ " group by pa.id, pe.nom, pe.prenom LIMIT 10";
+
 
 	/**
 	 * Requête native pour récupérer tous les patients d'un prescripteur (actifs ou non)
@@ -142,6 +142,14 @@ public class RequestController {
 //		}
 		return listPatientsAccueil;
 	}
+
+	/**
+	 Récupère un seul PatientsListAccueilCustom :
+	 * @return
+	 * PatientsListAccueilCustom
+	 * @throws IOException
+	 */
+
 
 	/**
 	 * Liste de TOUS les patients par prescripteur

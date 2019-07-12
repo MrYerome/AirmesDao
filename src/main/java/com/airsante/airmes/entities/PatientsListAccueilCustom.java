@@ -1,5 +1,7 @@
 package com.airsante.airmes.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,6 +14,7 @@ import java.util.Date;
  */
 public class PatientsListAccueilCustom implements Serializable {
     private static final long serialVersionUID = 1L;
+    @JsonProperty(value = "dataId")
     private int id;
     private String nom;
     private String prenom;

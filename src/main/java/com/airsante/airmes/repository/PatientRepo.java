@@ -51,14 +51,12 @@ public interface PatientRepo extends JpaRepository<Patient, Long> {
 	 * @return
 	 */
 	@Query(value = "select pa.id as id,  pe.nom as nom, pe.prenom as prenom, ad.ville as ville, pa.numero_ss as numeroSecu, pa.date_installation as dateInstallation,"
-			+" MAX(inte.date_realisation) as dateDerniereInter , pa.date_prochaine_interv as prochaineInter, ptm.moyenneMois as moyenneMois, pa.statut_dossier as statutDossier"
-			 +" from patientstomois ptm"
-			 +"	left join patient pa on pa.id= ptm.patient_id"
-			 	+" left join personne pe on pe.id= pa.id"
-			 	+" left join adresse ad on ad.id = pe.adresse_id"
-			 	 +" left outer join intervention inte on inte.patient_id = pa.id"
+			+ " MAX(inte.date_realisation) as dateDerniereInter , pa.date_prochaine_interv as dateProchaineInter, ptm.moyenneMois as moyenneMois, pa.statut_dossier as statutDossier"
+			+ " from patientstomois ptm" + "	left join patient pa on pa.id= ptm.patient_id"
+			+ " left join personne pe on pe.id= pa.id" + " left join adresse ad on ad.id = pe.adresse_id"
+			+ " left outer join intervention inte on inte.patient_id = pa.id  "
 			+			" WHERE pa.id=?1"
-			 	+" group by pa.id, pe.nom, pe.prenom "
+			+ " group by pa.id, pe.nom, pe.prenom LIMIT 10"
 
 			, nativeQuery = true)
     PatientInterfaceAccueilCustom getOnePatientInterfaceAccueilCustom(String id);
