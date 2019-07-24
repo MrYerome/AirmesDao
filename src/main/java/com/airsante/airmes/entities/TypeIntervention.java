@@ -1,6 +1,7 @@
 package com.airsante.airmes.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.GeneratedValue;
@@ -10,26 +11,27 @@ import javax.persistence.GenerationType;
  * @author jerome.vinet
  * @since 20190304
  */
+
+
 @Entity
 @Table(name = "type_intervention", schema = "ventury", catalog = "")
 public class TypeIntervention {
-    private Long id;
+    private int id;
     private String label;
     private Integer delais;
     private Integer prix;
     private Byte pharmacien;
     private Byte urgent;
     private String couleurAgenda;
+    private Collection<Intervention> interventionsById;
 
     @Id
-	@JsonProperty(value = "dataId")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -110,5 +112,14 @@ public class TypeIntervention {
     @Override
     public int hashCode() {
         return Objects.hash(id, label, delais, prix, pharmacien, urgent, couleurAgenda);
+    }
+
+    @OneToMany(mappedBy = "typeInterventionByTypeInterventionId")
+    public Collection<Intervention> getInterventionsById() {
+        return interventionsById;
+    }
+
+    public void setInterventionsById(Collection<Intervention> interventionsById) {
+        this.interventionsById = interventionsById;
     }
 }

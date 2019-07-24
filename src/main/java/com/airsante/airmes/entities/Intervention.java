@@ -1,10 +1,5 @@
 package com.airsante.airmes.entities;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,6 +29,8 @@ public class Intervention {
     private Byte affichageExtranet;
     private Byte revision;
     private Timestamp dateSuppr;
+    private TypeIntervention typeInterventionByTypeInterventionId;
+
 
     @Id
 	@JsonProperty(value = "dataId")
@@ -256,5 +253,17 @@ public class Intervention {
     @Override
     public int hashCode() {
         return Objects.hash(id, datePlanification, dateRealisation, observation, observationPatient, rappelMail, rappelSms, dateValidation, utilisationEnCours, statut, aPlanifier, dateRappelPlanification, dateSynchronisation, dateModif, astreinte, imprevue, affichageExtranet, revision, dateSuppr);
+    }
+
+
+
+    @ManyToOne
+    @JoinColumn(name = "type_intervention_id", referencedColumnName = "id")
+    public TypeIntervention getTypeInterventionByTypeInterventionId() {
+        return typeInterventionByTypeInterventionId;
+    }
+
+    public void setTypeInterventionByTypeInterventionId(TypeIntervention typeInterventionByTypeInterventionId) {
+        this.typeInterventionByTypeInterventionId = typeInterventionByTypeInterventionId;
     }
 }

@@ -24,7 +24,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableAuthorizationServer
 @ComponentScan
-public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+public class AuthorizationServerConfig
+        extends AuthorizationServerConfigurerAdapter
+{
 
 
     @Qualifier("authenticationManagerBean")

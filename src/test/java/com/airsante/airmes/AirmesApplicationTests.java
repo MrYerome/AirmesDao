@@ -15,10 +15,7 @@ import javax.transaction.UserTransaction;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +37,23 @@ public class AirmesApplicationTests {
 	EntityManager manager;
 //	@Resource
 //	private UserTransaction utx; 
-	
+
+
+//	@Test
+//	public void executeQueries() throws Exception, IOException {
+//		List<Long> content1 = new ArrayList<Long>(Long (100),200);
+//		Long chiffre1 = 100;
+//		content1.add(Long 100));
+//		List<Long> content = new ArrayList<>();
+//		for (int i = 0; i < listPmpPatient1.size(); ++i) {
+//			content.add(listPmpPatient1.get(i).longValue());
+//		}
+//
+//		System.out.println(listPmpPatient1);
+//		System.out.println(content);
+//		return content;
+//	}
+
 	@Test
 	public void executeQueries() throws Exception, IOException {
 

@@ -16,6 +16,7 @@ public class ParcMaterielPatient {
     private Long id;
     private Date dateLivraison;
     private Date dateReprise;
+   // private Patient patient;
     private ParcMateriel parcMaterielByParcMaterielId;
     private Intervention interventionByInterventionId;
 
@@ -85,4 +86,16 @@ public class ParcMaterielPatient {
     public void setInterventionByInterventionId(Intervention interventionByInterventionId) {
         this.interventionByInterventionId = interventionByInterventionId;
     }
+
+
+//    @ManyToOne
+//    @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false)
+//    public Patient getParcMaterielByPatientId() {
+//        return patient;
+//    }
+//
+//    public void setParcMaterielByParcMaterielId(Patient patient) {
+//        this.patient = patient;
+//    }
+
 }

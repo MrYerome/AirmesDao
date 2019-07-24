@@ -21,9 +21,8 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "parc_materiel_patient", path = "parc_materiel_patient")
 public interface ParcMaterielPatientRepo extends JpaRepository<ParcMaterielPatient, Long> {
 
-
-	@Query("select u from ParcMaterielPatient pmp where pmp.id = ?1")
-	ParcMaterielPatient findByIdPatient(Long id);
+	@Query("select pmp from ParcMaterielPatient pmp where pmp.id = ?1")
+	ParcMaterielPatient findByIdPatient(String emailAddress);
 
 
 }
