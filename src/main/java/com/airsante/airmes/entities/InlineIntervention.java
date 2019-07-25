@@ -3,8 +3,6 @@ package com.airsante.airmes.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.rest.core.config.Projection;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import java.sql.Timestamp;
 
 @Projection(name = "inlineIntervention", types = {Intervention.class})

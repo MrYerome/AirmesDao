@@ -1,10 +1,5 @@
 package com.airsante.airmes.entities;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -72,6 +67,7 @@ public class Fichierpdf {
     public void setFichier(byte[] fichier) {
         this.fichier = fichier;
     }
+
 
     @Override
     public boolean equals(Object o) {

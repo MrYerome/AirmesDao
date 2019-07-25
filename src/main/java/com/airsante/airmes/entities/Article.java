@@ -1,10 +1,5 @@
 package com.airsante.airmes.entities;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @since 20190304
  */
 @Entity
+@Table(name = "article", schema = "ventury", catalog = "")
 public class Article {
     private Long id;
     private String code;
@@ -22,6 +18,7 @@ public class Article {
     private byte suspendu;
     private String photo;
     private String referenceFabricant;
+    private FamilleArticle familleArticleByFamilleArticleId;
 
     @Id
 	@JsonProperty(value = "dataId")
@@ -103,6 +100,16 @@ public class Article {
 
     public void setReferenceFabricant(String referenceFabricant) {
         this.referenceFabricant = referenceFabricant;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "famille_article_id", referencedColumnName = "id")
+    public FamilleArticle getFamilleArticleByFamilleArticleId() {
+        return familleArticleByFamilleArticleId;
+    }
+
+    public void setFamilleArticleByFamilleArticleId(FamilleArticle familleArticleByFamilleArticleId) {
+        this.familleArticleByFamilleArticleId = familleArticleByFamilleArticleId;
     }
 
     @Override

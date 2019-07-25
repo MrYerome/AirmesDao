@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
+@Table(name = "fichierpdf", schema = "ventury", catalog = "")
 public class Fichierpdf {
     private int id;
     private String nom;

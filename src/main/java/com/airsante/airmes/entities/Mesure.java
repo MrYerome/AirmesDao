@@ -1,10 +1,5 @@
 package com.airsante.airmes.entities;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @since 20190304
  */
 @Entity
+@Table(name = "mesure", schema = "ventury", catalog = "")
 public class Mesure {
     private int id;
     private String label;

@@ -24,7 +24,7 @@ public class CustomControllerIntervention {
      * Requête native pour récupérer toutes les interventions d'un patient
      */
     private String listeInterventions = "SELECT inter.id FROM intervention inter " +
-    " WHERE inter.patient_id =:param";
+    " WHERE inter.patient_id =:param ORDER BY inter.id DESC";
 
 
     /**
@@ -33,7 +33,7 @@ public class CustomControllerIntervention {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "api/CustomControllerIntervention/listeInterventionsByIdPatient", method = RequestMethod.GET)
+    @RequestMapping(value = "api/CustomControllerIntervention/listeIdInterventionsByIdPatient", method = RequestMethod.GET)
     public List<ListeId> getListPmpByIdPatient(
             @RequestParam("param") int param)
             throws IOException

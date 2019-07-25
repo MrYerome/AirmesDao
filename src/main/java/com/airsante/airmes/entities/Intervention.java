@@ -1,6 +1,7 @@
 package com.airsante.airmes.entities;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,6 +31,8 @@ public class Intervention {
     private Byte revision;
     private Timestamp dateSuppr;
     private TypeIntervention typeInterventionByTypeInterventionId;
+    private Utilisateur utilisateurByUtilisateurIdTechnicien;
+    private Collection<ValeurMesure> valeurMesuresById;
 
 
     @Id
@@ -266,4 +269,24 @@ public class Intervention {
     public void setTypeInterventionByTypeInterventionId(TypeIntervention typeInterventionByTypeInterventionId) {
         this.typeInterventionByTypeInterventionId = typeInterventionByTypeInterventionId;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "utilisateur_id_technicien", referencedColumnName = "id")
+    public Utilisateur getUtilisateurByUtilisateurIdTechnicien() {
+        return utilisateurByUtilisateurIdTechnicien;
+    }
+
+    public void setUtilisateurByUtilisateurIdTechnicien(Utilisateur utilisateurByUtilisateurIdTechnicien) {
+        this.utilisateurByUtilisateurIdTechnicien = utilisateurByUtilisateurIdTechnicien;
+    }
+
+    @OneToMany(mappedBy = "interventionByInterventionId")
+    public Collection<ValeurMesure> getValeurMesuresById() {
+        return valeurMesuresById;
+    }
+
+    public void setValeurMesuresById(Collection<ValeurMesure> valeurMesuresById) {
+        this.valeurMesuresById = valeurMesuresById;
+    }
+
 }

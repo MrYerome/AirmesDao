@@ -1,16 +1,13 @@
 package com.airsante.airmes.repository;
 
 import com.airsante.airmes.entities.InlineIntervention;
-import com.airsante.airmes.entities.InlinePrescripteur;
+
 import com.airsante.airmes.entities.Intervention;
-import com.airsante.airmes.entities.Prescripteur;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import javax.transaction.Transactional;
-import java.util.List;
 //TODO : voir comment faire pour récupérer données de plusieurs tables
 // Exemple : liste de patients actifs
 

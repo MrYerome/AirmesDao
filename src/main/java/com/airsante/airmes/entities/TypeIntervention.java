@@ -23,9 +23,10 @@ public class TypeIntervention {
     private Byte pharmacien;
     private Byte urgent;
     private String couleurAgenda;
-    private Collection<Intervention> interventionsById;
+//    private Collection<Intervention> interventionsById;
 
     @Id
+    @JsonProperty(value = "dataId")
     @Column(name = "id")
     public int getId() {
         return id;
@@ -114,12 +115,12 @@ public class TypeIntervention {
         return Objects.hash(id, label, delais, prix, pharmacien, urgent, couleurAgenda);
     }
 
-    @OneToMany(mappedBy = "typeInterventionByTypeInterventionId")
-    public Collection<Intervention> getInterventionsById() {
-        return interventionsById;
-    }
-
-    public void setInterventionsById(Collection<Intervention> interventionsById) {
-        this.interventionsById = interventionsById;
-    }
+//    @OneToMany(mappedBy = "typeInterventionByTypeInterventionId")
+//    public Collection<Intervention> getInterventionsById() {
+//        return interventionsById;
+//    }
+//
+//    public void setInterventionsById(Collection<Intervention> interventionsById) {
+//        this.interventionsById = interventionsById;
+//    }
 }

@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
  * @since 20190304
  */
 @Entity
+@Table(name = "utilisateur", schema = "ventury", catalog = "")
 public class Utilisateur {
     private Long id;
     private String identifiant;
