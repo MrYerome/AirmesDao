@@ -29,7 +29,7 @@ public interface ObservanceRepo extends JpaRepository<ReleveObservancePatient, L
 
     List<ReleveObservancePatient> findTopByPatientIdOrderByDateReleveDesc(@Param("id") Integer id);
 
-    List<ReleveObservancePatient> findTop30ByPatientIdOrderByDateReleveDesc(@Param("id") Integer id);
+    List<ReleveObservancePatient> findTop28ByPatientIdOrderByDateReleveDesc(@Param("id") Integer id);
 
     List<ReleveObservancePatient> findByPatientIdAndDateReleveBetween(
             @Param("id") Integer id,

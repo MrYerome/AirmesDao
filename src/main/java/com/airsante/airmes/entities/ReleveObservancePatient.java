@@ -10,7 +10,7 @@ import java.util.Objects;
 @Table(name = "releve_observance_patient", schema = "ventury", catalog = "")
 @IdClass(ReleveObservancePatientPK.class)
 public class ReleveObservancePatient {
-    private Long patientId;
+    private int patientId;
     private Date dateReleve;
     private Integer valeur;
     private Timestamp dateCreation;
@@ -19,11 +19,11 @@ public class ReleveObservancePatient {
 
     @Id
     @Column(name = "patient_id")
-    public Long getPatientId() {
+    public int getPatientId() {
         return patientId;
     }
 
-    public void setPatientId(Long patientId) {
+    public void setPatientId(int patientId) {
         this.patientId = patientId;
     }
 
