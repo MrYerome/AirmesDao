@@ -14,7 +14,7 @@ import java.util.List;
 // Exemple : liste de patients actifs
 
 /**
- * 
+ *
  * @author jerome.vinet
  * @since 2019.06.13
  * Permet de communiquer avec la table prescripteur de la BDD
@@ -30,13 +30,15 @@ public interface PrescripteurRepo extends JpaRepository<Prescripteur, Long> {
 	 */
 	List<Prescripteur> findByLoginContaining(@Param("login") String login);
 
+
+	
 	/**
 	 * Retourne UN SEUL PRESCRIPTEUR
 	 * @param login
 	 * @return
 	 */
 	@Query("from Prescripteur p where p.login = ?1")
-	public Prescripteur getPrescripteurByIdentifiant(String login);
+	Prescripteur getPrescripteurByIdentifiant(String login);
 
 }
 

@@ -23,7 +23,7 @@ public interface InterventionRepo extends JpaRepository<Intervention, Long> {
 
 
 	/**
-	 * Retourne UN SEUL PRESCRIPTEUR
+	 * Retourne UNE SEULE INTERVENTION
 	 * @param id
 	 * @return
 	 */

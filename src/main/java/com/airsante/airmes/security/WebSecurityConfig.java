@@ -20,9 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig
-        extends WebSecurityConfigurerAdapter
-{
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
@@ -30,19 +28,18 @@ public class WebSecurityConfig
         return super.authenticationManagerBean();
     }
 
-
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
     /**
      * Les fonction suivantes permettent d'avoir accès aux utilisateurs de la BDD en passant par le userDetailsService
+     *
      * @return
      */
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
-        // Application de mon custom encoder
         authProvider.setPasswordEncoder(new CustomPasswordEncoder());
         return authProvider;
     }
@@ -54,16 +51,8 @@ public class WebSecurityConfig
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        // Setting Service to find User in the database.
-        // And Setting PassswordEncoder
         auth.userDetailsService(userDetailsService);
-
     }
-
-
-
-
-
 
 
 }

@@ -20,19 +20,18 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-
+/**
+ * @author jerome.vinet
+ * @since 2019.06.03
+ */
 @Configuration
 @EnableAuthorizationServer
 @ComponentScan
-public class AuthorizationServerConfig
-        extends AuthorizationServerConfigurerAdapter
-{
-
+public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Qualifier("authenticationManagerBean")
     @Autowired
     private AuthenticationManager authenticationManager;
-
 
     @Autowired
     private TokenStore tokenStore;
@@ -42,17 +41,12 @@ public class AuthorizationServerConfig
         clients
                 .inMemory()
                 .withClient("airmesFront")
+                .secret(passwordEncoder().encode("air$@ante_49AiR"))
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
                 .authorities("ROLE_AIRSANTE", "ROLE_TRUSTED_CLIENT", "ROLE_USER, ROLE_ADMIN, ADMIN")
                 .scopes("read", "write")
                 .autoApprove(true)
-                .secret(passwordEncoder().encode("airmesFront"))
         ;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Override
@@ -66,4 +60,10 @@ public class AuthorizationServerConfig
     public TokenStore tokenStore() {
         return new InMemoryTokenStore();
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

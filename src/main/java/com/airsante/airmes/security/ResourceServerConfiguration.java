@@ -8,20 +8,12 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
 
 @EnableResourceServer
 @Configuration
-public class ResourceServerConfiguration
-        extends ResourceServerConfigurerAdapter
-{
+public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.
                 anonymous().disable()
                 .authorizeRequests()
-
-               .antMatchers("/api/**").authenticated()
-//                .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler())
-        ;
+                .antMatchers("/api/**").authenticated();
     }
-
-
-
 }

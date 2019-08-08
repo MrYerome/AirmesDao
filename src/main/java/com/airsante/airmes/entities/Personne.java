@@ -4,13 +4,15 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 /**
  * @author jerome.vinet
- * @since 20190304
+ * @since 2019.03.04
  */
 @Entity
 public class Personne {
@@ -31,8 +33,8 @@ public class Personne {
     private Adresse adresseByAdresseId;
 
     @Id
-	@JsonProperty(value = "dataId")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(value = "dataId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public Long getId() {
         return id;
@@ -41,7 +43,6 @@ public class Personne {
     public void setId(Long id) {
         this.id = id;
     }
-    
 
 
     @Basic
@@ -159,9 +160,25 @@ public class Personne {
     public String getSexe() {
         return sexe;
     }
-
     public void setSexe(String sexe) {
         this.sexe = sexe;
+    }
+
+    @OneToOne(mappedBy = "personneById")
+    public Patient getPatientById() {
+        return patientById;
+    }
+    public void setPatientById(Patient patientById) {
+        this.patientById = patientById;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "adresse_id", referencedColumnName = "id")
+    public Adresse getAdresseByAdresseId() {
+        return adresseByAdresseId;
+    }
+    public void setAdresseByAdresseId(Adresse adresseByAdresseId) {
+        this.adresseByAdresseId = adresseByAdresseId;
     }
 
     @Override
@@ -189,22 +206,5 @@ public class Personne {
         return Objects.hash(id, nom, prenom, dateNaissance, telDomicile, telPortable, telAutre, telCommentaire, fax, mail, commentaire, dateSuppr, sexe);
     }
 
-    @OneToOne(mappedBy = "personneById")
-    public Patient getPatientById() {
-        return patientById;
-    }
 
-    public void setPatientById(Patient patientById) {
-        this.patientById = patientById;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "adresse_id", referencedColumnName = "id")
-    public Adresse getAdresseByAdresseId() {
-        return adresseByAdresseId;
-    }
-
-    public void setAdresseByAdresseId(Adresse adresseByAdresseId) {
-        this.adresseByAdresseId = adresseByAdresseId;
-    }
 }

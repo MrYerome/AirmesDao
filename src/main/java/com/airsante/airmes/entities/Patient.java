@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author jerome.vinet
- * @since 20190304
+ * @since 2019.03.04
  */
 @Entity
 public class Patient {

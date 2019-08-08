@@ -20,23 +20,21 @@ import java.util.List;
  */
 @Transactional
 @RepositoryRestResource(collectionResourceRel = "releve_observance_patient", path = "releve_observance_patient", excerptProjection = InlineObservance.class)
-//@RepositoryRestResource(collectionResourceRel = "releve_observance_patient", path = "releve_observance_patient")
 public interface ObservanceRepo extends JpaRepository<ReleveObservancePatient, Long> {
 
-    @Query("select rop from ReleveObservancePatient rop where rop.patientId = ?1 ORDER BY rop.dateReleve DESC")
-    List<ReleveObservancePatient> findByIdPatient(Integer id);
-
+    List<ReleveObservancePatient> findTop28ByPatientIdOrderByDateReleveDesc(@Param("id") Integer id);
 
     List<ReleveObservancePatient> findTopByPatientIdOrderByDateReleveDesc(@Param("id") Integer id);
-
-    List<ReleveObservancePatient> findTop28ByPatientIdOrderByDateReleveDesc(@Param("id") Integer id);
 
     List<ReleveObservancePatient> findByPatientIdAndDateReleveBetween(
             @Param("id") Integer id,
             @Param("after") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date after,
             @Param("before") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date before);
-//http://marketplace.eclipse.org/content/jboss-tools
-//	List<AdresseEntity> findByTitleContaining(@Param("word") String word);
+
+
+    @Query("select rop from ReleveObservancePatient rop where rop.patientId = ?1 ORDER BY rop.dateReleve DESC")
+    List<ReleveObservancePatient> findByIdPatient(Integer id);
+
 
 }
 

@@ -13,14 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserDetailsServiceImpl
-        implements UserDetailsService
+public class UserDetailsServiceImpl implements UserDetailsService
 {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
         grantList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        UserDetails userDetails = new User("admin","b18c8fcd088be8137a88a6de4d1865e55e2a3833", grantList);
+        UserDetails userDetails = new User("air_94_$ante","b18c8fcd088be8137a88a6de4d1865e55e2a3833", grantList);
         return userDetails;
     }
 
