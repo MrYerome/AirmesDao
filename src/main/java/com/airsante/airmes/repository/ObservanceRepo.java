@@ -12,8 +12,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
-//TODO : voir comment faire pour récupérer données de plusieurs tables
-// Exemple : liste de patients actifs
 
 /**
  * @author jerome.vinet
@@ -34,8 +32,7 @@ public interface ObservanceRepo extends JpaRepository<ReleveObservancePatient, L
 
     @Query("select rop from ReleveObservancePatient rop where rop.patientId = ?1 ORDER BY rop.dateReleve DESC")
     List<ReleveObservancePatient> findByIdPatient(Integer id);
-
-
+    
 }
 
 

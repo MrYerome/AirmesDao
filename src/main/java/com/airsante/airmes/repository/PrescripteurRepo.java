@@ -23,15 +23,24 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "prescripteur", path = "prescripteur", excerptProjection = InlinePrescripteur.class)
 public interface PrescripteurRepo extends JpaRepository<Prescripteur, Long> {
 
-	/**
-	 * Retourne UNE LISTE DE PRESCRIPTEUR
-	 * @param login
-	 * @return
-	 */
+//	/**
+//	 * Retourne UNE LISTE DE PRESCRIPTEUR
+//	 * @param login
+//	 * @return
+//	 */
 	List<Prescripteur> findByLoginContaining(@Param("login") String login);
 
 
-	
+	/**
+	 * Retourne UN SEUL PRESCRIPTEUR
+	 * @param login
+	 * @return
+	 */
+//	Prescripteur findByLoginContaining(@Param("login") String login);
+
+List<Prescripteur> findByNouvelExtranetEquals(@Param("statut") byte statut);
+
+
 	/**
 	 * Retourne UN SEUL PRESCRIPTEUR
 	 * @param login

@@ -28,12 +28,18 @@ import com.airsante.airmes.entities.PersonnesListCustom;
 @Transactional
 @RepositoryRestResource(collectionResourceRel = "patient", path = "patient", excerptProjection = InlinePatient.class)
 public interface PatientRepo extends JpaRepository<Patient, Long> {
+
+
     /**
      * Requête automatique pour retrouver une liste de patient par son identifiant
      * @param identifiant
      * @return
      */
     List<InlinePatient> findByIdentifiantContaining(@Param("identifiant") String identifiant);
+
+
+
+    List<Patient> findByExtranetactifEquals(@Param("statut") Byte statut);
 
 //	/**
 //	 * Requête automatique pour retrouver une liste de patient par son identifiant
